@@ -1,7 +1,7 @@
 # 資料庫系統概論 期末專案
 ## 匯入資料到 MySQL server
-請先至 [Open Powerlifting](http://old.openpowerlifting.org/data.html) 下載 [openpowerlifting.zp](http://old.openpowerlifting.org/static/openpowerlifting.zip) 檔案，並解壓縮到 ```/data/seeds/``` 資料夾。
-
+- 先至 [Open Powerlifting](http://old.openpowerlifting.org/data.html) 下載 [openpowerlifting.zip](http://old.openpowerlifting.org/static/openpowerlifting.zip) 檔案，並解壓縮到 ```/data/seeds``` 資料夾。
+- 透過以下命令執行腳本 ```data_preprocessing.py```
 
 ```
 python -m venv venv
