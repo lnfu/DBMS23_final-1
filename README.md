@@ -1,3 +1,18 @@
+# 資料庫系統概論 期末專案
+## 匯入資料到 MySQL server
+請先至 [Open Powerlifting](http://old.openpowerlifting.org/data.html) 下載 [openpowerlifting.zp](http://old.openpowerlifting.org/static/openpowerlifting.zip) 檔案，並解壓縮到 ```/data/seeds/``` 資料夾。
+
+
+```
+python -m venv venv
+venv/Scripts/active
+python -m pip install --upgrade pip
+pip install pandas mysql-connector-python
+python data_preprocessing.py
+```
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
