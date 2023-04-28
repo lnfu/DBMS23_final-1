@@ -16,8 +16,9 @@ dataframe = dataframe[keep_columns]
 dataframe = dataframe.drop_duplicates(subset=['LifterID'])
 dataframe = dataframe.sort_values(by='LifterID')
 
+
 # print(dataframe)
 
-new_file_path = "seeds/lifter.csv"
+new_file_path = "seeds/lifters.csv"
 
 dataframe.to_csv(new_file_path, index=False)
