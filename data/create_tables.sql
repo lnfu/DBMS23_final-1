@@ -3,15 +3,16 @@ CREATE DATABASE dbms23_final;
 USE dbms23_final;
 
 -- create tables
+-- lift data
 CREATE TABLE Lifters (
-  LifterID MEDIUMINT,
+  LifterID INT,
   Name VARCHAR(255),
   Sex VARCHAR(2),
   PRIMARY KEY (LifterID)
 );
 
 CREATE TABLE Meets (
-  MeetID MEDIUMINT,
+  MeetID INT,
   MeetPath VARCHAR(255),
   Federation VARCHAR(255),
   Date DATE,
@@ -22,8 +23,8 @@ CREATE TABLE Meets (
   PRIMARY KEY (MeetID)
 );
 CREATE TABLE TotalData (
-  MeetID MEDIUMINT NOT NULL,
-  LifterID MEDIUMINT NOT NULL,
+  MeetID INT NOT NULL,
+  LifterID INT NOT NULL,
   Equipment VARCHAR(20),
   Age DECIMAL(3,1),
   BodyweightKg DECIMAL(5,2),
@@ -46,8 +47,8 @@ CREATE TABLE TotalData (
 
 
 CREATE TABLE SquatData (
-  MeetID MEDIUMINT NOT NULL,
-  LifterID MEDIUMINT NOT NULL,
+  MeetID INT NOT NULL,
+  LifterID INT NOT NULL,
   Equipment VARCHAR(20),
   Age DECIMAL(3,1),
   BodyweightKg DECIMAL(5,2),
@@ -65,8 +66,8 @@ CREATE TABLE SquatData (
     ON DELETE CASCADE
 );
 CREATE TABLE BenchData (
-  MeetID MEDIUMINT NOT NULL,
-  LifterID MEDIUMINT NOT NULL,
+  MeetID INT NOT NULL,
+  LifterID INT NOT NULL,
   Equipment VARCHAR(20),
   Age DECIMAL(3,1),
   BodyweightKg DECIMAL(5,2),
@@ -84,8 +85,8 @@ CREATE TABLE BenchData (
     ON DELETE CASCADE
 );
 CREATE TABLE DeadliftData (
-  MeetID MEDIUMINT NOT NULL,
-  LifterID MEDIUMINT NOT NULL,
+  MeetID INT NOT NULL,
+  LifterID INT NOT NULL,
   Equipment VARCHAR(20),
   Age DECIMAL(3,1),
   BodyweightKg DECIMAL(5,2),
@@ -102,6 +103,22 @@ CREATE TABLE DeadliftData (
     REFERENCES Lifters(LifterID)
     ON DELETE CASCADE
 );
+-- user data
+CREATE TABLE Users (
+  UserID INT NOT NULL AUTO_INCREMENT,
+  Email VARCHAR(255) NOT NULL,
+  CreateAt DATETIME NOT NULL,
+  PRIMARY KEY (UserID)
+);
+
+CREATE TABLE Follow (
+  UserID INT,
+  LifterID INT,
+  Foreign Key (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+  Foreign Key (LifterID) REFERENCES Lifters(LifterID) ON DELETE CASCADE
+);
+
+
 
 -- load csv files into tables
 SET GLOBAL local_infile=TRUE;
