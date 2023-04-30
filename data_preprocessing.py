@@ -10,11 +10,10 @@ python_files = [file for file in file_list if file.endswith('.py')]
 # 執行所有檔案
 for python_file in python_files:
     print("execute", python_file, "...")
-    os.system(f'python {python_file}')
+    os.system(f'python {python_file}') # or python3
 
 
 cnx = mysql.connector.connect(user='root',
-                             password='root',
                              host='localhost')
 cursor =cnx.cursor()
 
