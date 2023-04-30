@@ -13,7 +13,7 @@ python_files = [file for file in file_list if file.endswith('.py')]
 # 執行所有檔案
 for python_file in python_files:
     print("execute", python_file, "...")
-    os.system(f'python {python_file}')
+    os.system(f'python {python_file}') # or python3
 
 print("exicute SQL...")
 
@@ -21,6 +21,7 @@ cnx = mysql.connector.connect(user=user_name,
                               password=user_password,
                               host='localhost',
                               allow_local_infile=True)
+
 cursor =cnx.cursor()
 
 def executeScriptsFromFile(filename):
