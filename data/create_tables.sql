@@ -2,31 +2,15 @@ DROP DATABASE IF EXISTS dbms23_final;
 CREATE DATABASE dbms23_final;
 USE dbms23_final;
 
-CREATE TABLE TotalData (
-  MeetID MEDIUMINT NOT NULL,
-  LifterID MEDIUMINT NOT NULL,
-  Equipment ENUM('Raw', 'Wraps', 'Single-ply', 'Multi-ply', 'Unlimited', 'Straps'),
-  Age DECIMAL(3,1),
-  BodyweightKg DECIMAL(5,2),
-  Best3SquatKg DECIMAL(5,2) NOT NULL,
-  Best3BenchKg DECIMAL(5,2) NOT NULL,
-  Best3DeadliftKg DECIMAL(5,2) NOT NULL,
-  TotalKg DECIMAL(6,2) NOT NULL,
-  Place VARCHAR(2),
-  Wilks FLOAT,
-  McCulloch FLOAT,
-  Tested BOOLEAN,
-  PRIMARY KEY (MeetID, LifterID)
-);
-
+-- create tables
 CREATE TABLE Lifters (
   LifterID MEDIUMINT,
   Name VARCHAR(255),
-  Sex ENUM('M', 'F', 'Mx'),
+  Sex VARCHAR(2),
   PRIMARY KEY (LifterID)
 );
 
-CREATE TABLE Meet (
+CREATE TABLE Meets (
   MeetID MEDIUMINT,
   MeetPath VARCHAR(255),
   Federation VARCHAR(255),
@@ -37,45 +21,125 @@ CREATE TABLE Meet (
   MeetName VARCHAR(255),
   PRIMARY KEY (MeetID)
 );
+CREATE TABLE TotalData (
+  MeetID MEDIUMINT NOT NULL,
+  LifterID MEDIUMINT NOT NULL,
+  Equipment VARCHAR(20),
+  Age DECIMAL(3,1),
+  BodyweightKg DECIMAL(5,2),
+  Best3SquatKg DECIMAL(5,2) NOT NULL,
+  Best3BenchKg DECIMAL(5,2) NOT NULL,
+  Best3DeadliftKg DECIMAL(5,2) NOT NULL,
+  TotalKg DECIMAL(6,2) NOT NULL,
+  Place VARCHAR(2),
+  Wilks FLOAT,
+  McCulloch FLOAT,
+  Tested BOOLEAN,
+  PRIMARY KEY (MeetID, LifterID),
+  FOREIGN KEY (MeetID)
+    REFERENCES Meets(MeetID)
+    ON DELETE CASCADE,
+  FOREIGN KEY (LifterID)
+    REFERENCES Lifters(LifterID)
+    ON DELETE CASCADE
+);
+
 
 CREATE TABLE SquatData (
   MeetID MEDIUMINT NOT NULL,
   LifterID MEDIUMINT NOT NULL,
-  Equipment ENUM('Raw', 'Wraps', 'Single-ply', 'Multi-ply', 'Unlimited', 'Straps'),
+  Equipment VARCHAR(20),
   Age DECIMAL(3,1),
   BodyweightKg DECIMAL(5,2),
-  Squat1Kg DECIMAL(5,2) NOT NULL,
-  Squat2Kg DECIMAL(5,2) NOT NULL,
-  Squat3Kg DECIMAL(5,2) NOT NULL,
-  Squat4Kg DECIMAL(5,2) NOT NULL,
+  Squat1Kg DECIMAL(5,2),
+  Squat2Kg DECIMAL(5,2),
+  Squat3Kg DECIMAL(5,2),
+  Squat4Kg DECIMAL(5,2),
   Tested BOOLEAN,
-  PRIMARY KEY (MeetID, LifterID)
+  PRIMARY KEY (MeetID, LifterID),
+  FOREIGN KEY (MeetID)
+    REFERENCES Meets(MeetID)
+    ON DELETE CASCADE,
+  FOREIGN KEY (LifterID)
+    REFERENCES Lifters(LifterID)
+    ON DELETE CASCADE
 );
 CREATE TABLE BenchData (
   MeetID MEDIUMINT NOT NULL,
   LifterID MEDIUMINT NOT NULL,
-  Equipment ENUM('Raw', 'Wraps', 'Single-ply', 'Multi-ply', 'Unlimited', 'Straps'),
+  Equipment VARCHAR(20),
   Age DECIMAL(3,1),
   BodyweightKg DECIMAL(5,2),
-  Bench1Kg DECIMAL(5,2) NOT NULL,
-  Bench2Kg DECIMAL(5,2) NOT NULL,
-  Bench3Kg DECIMAL(5,2) NOT NULL,
-  Bench4Kg DECIMAL(5,2) NOT NULL,
+  Bench1Kg DECIMAL(5,2),
+  Bench2Kg DECIMAL(5,2),
+  Bench3Kg DECIMAL(5,2),
+  Bench4Kg DECIMAL(5,2),
   Tested BOOLEAN,
-  PRIMARY KEY (MeetID, LifterID)
+  PRIMARY KEY (MeetID, LifterID),
+  FOREIGN KEY (MeetID)
+    REFERENCES Meets(MeetID)
+    ON DELETE CASCADE,
+  FOREIGN KEY (LifterID)
+    REFERENCES Lifters(LifterID)
+    ON DELETE CASCADE
 );
 CREATE TABLE DeadliftData (
   MeetID MEDIUMINT NOT NULL,
   LifterID MEDIUMINT NOT NULL,
-  Equipment ENUM('Raw', 'Wraps', 'Single-ply', 'Multi-ply', 'Unlimited', 'Straps'),
+  Equipment VARCHAR(20),
   Age DECIMAL(3,1),
   BodyweightKg DECIMAL(5,2),
-  Deadlift1Kg DECIMAL(5,2) NOT NULL,
-  Deadlift2Kg DECIMAL(5,2) NOT NULL,
-  Deadlift3Kg DECIMAL(5,2) NOT NULL,
-  Deadlift4Kg DECIMAL(5,2) NOT NULL,
+  Deadlift1Kg DECIMAL(5,2),
+  Deadlift2Kg DECIMAL(5,2),
+  Deadlift3Kg DECIMAL(5,2),
+  Deadlift4Kg DECIMAL(5,2),
   Tested BOOLEAN,
-  PRIMARY KEY (MeetID, LifterID)
+  PRIMARY KEY (MeetID, LifterID),
+  FOREIGN KEY (MeetID)
+    REFERENCES Meets(MeetID)
+    ON DELETE CASCADE,
+  FOREIGN KEY (LifterID)
+    REFERENCES Lifters(LifterID)
+    ON DELETE CASCADE
 );
 
+-- load csv files into tables
+SET GLOBAL local_infile=TRUE;
 
+
+LOAD DATA LOCAL INFILE  
+'seeds/lifters.csv'
+INTO TABLE Lifters  
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE  
+'seeds/meets.csv'
+INTO TABLE Meets  
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE  
+'seeds/total.csv'
+INTO TABLE TotalData  
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE  
+'seeds/squat.csv'
+INTO TABLE SquatData  
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE  
+'seeds/bench.csv'
+INTO TABLE BenchData  
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+LOAD DATA LOCAL INFILE  
+'seeds/deadlift.csv'
+INTO TABLE DeadliftData  
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;

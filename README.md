@@ -2,8 +2,10 @@
 
 ## 匯入資料到 MySQL server
 
-- 先至 [Open Powerlifting](http://old.openpowerlifting.org/data.html) 下載 [openpowerlifting.zip](http://old.openpowerlifting.org/static/openpowerlifting.zip) 檔案，並解壓縮到 `/data/seeds` 資料夾。
-- 透過以下命令執行腳本 `data_preprocessing.py`
+- 安裝好 MySQL server 在本機
+- 至 [Open Powerlifting](http://old.openpowerlifting.org/data.html) 下載 [openpowerlifting.zip](http://old.openpowerlifting.org/static/openpowerlifting.zip) 檔案，並解壓縮到 ```/data/seeds``` 資料夾。
+- 透過以下命令執行腳本 ```data_preprocessing.py```，執行前記得把 ```user_name``` 和 ```user_password``` 這兩個變數改成 MySQL server 的使用者名稱和密碼
+
 
 ```
 python -m venv venv venv/Scripts/active
