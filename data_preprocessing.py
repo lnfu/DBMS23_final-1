@@ -12,9 +12,14 @@ for python_file in python_files:
     print("execute", python_file, "...")
     os.system(f'python {python_file}') # or python3
 
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv('DB_HOST')
 
-cnx = mysql.connector.connect(user='root',
-                             host='localhost')
+# 使用變量創建MySQL連接
+cnx = mysql.connector.connect(user=db_user,
+                              password=db_password,
+                              host=db_host)
 cursor =cnx.cursor()
 
 def executeScriptsFromFile(filename):
