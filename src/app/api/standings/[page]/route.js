@@ -12,7 +12,13 @@ export async function GET(request, context) {
   });
   
   try {
-    const query = "SELECT * FROM TotalData ORDER BY TotalKg DESC Limit "  + (50*page).toString() + ", 50";
+    const query = `
+      SELECT * FROM TotalData TD
+      JOIN (
+        SELECT LifterID, MAX(TotalKg) AS TotalKg FROM TotalData
+        GROUP BY LifterID
+      ) AS BTD ON TD.LifterID = BTD.LifterID AND TD.TotalKg = BTD.TotalKg`
+     + " LIMIT " + (50 * page).toString() + ", 50";
     const values = [];
     const [data] = await connection.execute(query, values);
     connection.end();
