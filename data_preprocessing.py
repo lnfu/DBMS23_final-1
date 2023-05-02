@@ -15,12 +15,15 @@ for python_file in python_files:
     print("execute", python_file, "...")
     os.system(f'python {python_file}') # or python3
 
-print("exicute SQL...")
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv('DB_HOST')
 
-cnx = mysql.connector.connect(user=user_name,
-                              password=user_password,
-                              host='localhost',
-                              allow_local_infile=True)
+# 使用變量創建MySQL連接
+cnx = mysql.connector.connect(user=db_user,
+                              password=db_password,
+                              host=db_host)
+print("exicute SQL...")
 
 cursor =cnx.cursor()
 
