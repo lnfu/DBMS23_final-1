@@ -1,6 +1,9 @@
 import os
 import mysql.connector
 
+user_name = 'root'
+user_password = 'root'
+
 current_directory = os.getcwd()
 data_directory = os.path.join(current_directory, 'data')
 os.chdir(data_directory)
@@ -20,6 +23,8 @@ db_host = os.getenv('DB_HOST')
 cnx = mysql.connector.connect(user=db_user,
                               password=db_password,
                               host=db_host)
+print("exicute SQL...")
+
 cursor =cnx.cursor()
 
 def executeScriptsFromFile(filename):
