@@ -4,7 +4,7 @@
 
 async function getData() {
   // standings 每一頁顯示 50 筆資料（從大到小排序）
-  const res = await fetch('http://localhost:3000/api/standings/1');
+  const res = await fetch('http://localhost:3000/api/standings/0');
 
   if (!res.ok) {
     throw new Error('Failed to fetch data');

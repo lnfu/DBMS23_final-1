@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS dbms23_final;
+CREATE DATABASE dbms23_final;

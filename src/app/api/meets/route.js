@@ -2,12 +2,16 @@ import { NextResponse } from "next/server";
 import mysql from "mysql2/promise"
 
 export async function GET(request) {
-    console.log(request);
-    return NextResponse.json({ content: 'Use POST method to transfer the Meet ID you want to query' });
+    return NextResponse.json({
+      "success": false,
+      "message": "Invalid input format",
+      "error": "Please give the MeetID you want to query. e.g., /api/meets/1"
+    });
 }
 
-export async function POST(request) {
-    const test = await request.json();
-    console.log(test["test"]);
-    return NextResponse.json({"content": "success"});
-}
+// POST 測試
+// export async function POST(request) {
+//     const test = await request.json();
+//     console.log(test["test"]);
+//     return NextResponse.json({"content": "success"});
+// }

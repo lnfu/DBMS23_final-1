@@ -1,8 +1,5 @@
-DROP DATABASE IF EXISTS dbms23_final;
-CREATE DATABASE dbms23_final;
 USE dbms23_final;
 
--- create tables
 -- lift data
 CREATE TABLE Lifters (
   LifterID INT,
@@ -10,7 +7,6 @@ CREATE TABLE Lifters (
   Sex VARCHAR(2),
   PRIMARY KEY (LifterID)
 );
-
 CREATE TABLE Meets (
   MeetID INT,
   MeetPath VARCHAR(255),
@@ -44,8 +40,6 @@ CREATE TABLE TotalData (
     REFERENCES Lifters(LifterID)
     ON DELETE CASCADE
 );
-
-
 CREATE TABLE SquatData (
   MeetID INT NOT NULL,
   LifterID INT NOT NULL,
@@ -104,59 +98,8 @@ CREATE TABLE DeadliftData (
     ON DELETE CASCADE
 );
 -- user data
-CREATE TABLE Users (
-  UserID INT NOT NULL AUTO_INCREMENT,
-  Email VARCHAR(255) NOT NULL,
-  CreateAt DATETIME NOT NULL,
-  PRIMARY KEY (UserID)
-);
-
 CREATE TABLE Follow (
-  UserID INT,
-  LifterID INT,
-  Foreign Key (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+  UserID INT NOT NULL, -- github ID
+  LifterID INT NOT NULL,
   Foreign Key (LifterID) REFERENCES Lifters(LifterID) ON DELETE CASCADE
 );
-
-
-
--- load csv files into tables
-SET GLOBAL local_infile=TRUE;
-
-
-LOAD DATA LOCAL INFILE  
-'seeds/lifters.csv'
-INTO TABLE Lifters  
-FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-LOAD DATA LOCAL INFILE  
-'seeds/meets.csv'
-INTO TABLE Meets  
-FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-LOAD DATA LOCAL INFILE  
-'seeds/total.csv'
-INTO TABLE TotalData  
-FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-LOAD DATA LOCAL INFILE  
-'seeds/squat.csv'
-INTO TABLE SquatData  
-FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-LOAD DATA LOCAL INFILE  
-'seeds/bench.csv'
-INTO TABLE BenchData  
-FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
-LOAD DATA LOCAL INFILE  
-'seeds/deadlift.csv'
-INTO TABLE DeadliftData  
-FIELDS TERMINATED BY ',' 
-LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
