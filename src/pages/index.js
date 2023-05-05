@@ -1,10 +1,16 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import Login from "../components/Login";
+const Home = () => {
+  const { data: session } = useSession();
 
-const inter = Inter({ subsets: ['latin'] })
-
-export default function Home() {
   return (
-    <>Hi</>
-  )
-}
+    <div>
+      <Login />
+      <div className="items-center flex flex-col justify-center">
+      </div>
+    </div>
+  );
+};
+
+export default Home;
