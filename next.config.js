@@ -4,4 +4,10 @@ const nextConfig = {
   serverComponentsExternalPackages: ["mysql2"], // 加入這行才能用，但我不知道為什麼...
 }
 
-module.exports = nextConfig
+module.exports = {
+
+  images: {
+    domains: ['avatars.githubusercontent.com'],
+
+  }
+}

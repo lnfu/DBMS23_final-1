@@ -22,10 +22,9 @@ export default async function handler(req, res) {
       database: 'dbms23_final',
     })
     const query = `
-      SELECT *, GREATEST(${type}1Kg, ${type}2Kg, ${type}3Kg) AS SquatBest
+      SELECT *, GREATEST(${type}1Kg, ${type}2Kg, ${type}3Kg) AS ${type}Best
       FROM ${type}Data
-      ORDER BY SquatBest DESC`
-      + " LIMIT " + (50 * page).toString() + ", 50"
+      ORDER BY ${type}Best DESC`
     const [data] = await connection.execute(query)
     connection.end()
 
