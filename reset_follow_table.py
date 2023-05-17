@@ -17,5 +17,6 @@ cnx = mysql.connector.connect(user=db_username,
                               database='dbms23_final')
 
 cursor = cnx.cursor()
+cursor.execute("CREATE TABLE IF NOT EXISTS Follow(test INT)")
 cursor.execute("TRUNCATE TABLE Follow")
 cnx.commit()
