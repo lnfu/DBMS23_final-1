@@ -1,7 +1,7 @@
-import mysql from 'mysql2/promise'
+import mysql from 'mysql2/promise';
 
 export default async function handler(req, res) {
-  const { page } = req.query
+  const { page } = req.query;
 
   try {
     const connection = await mysql.createConnection({
@@ -9,30 +9,33 @@ export default async function handler(req, res) {
       user: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: 'dbms23_final',
-    })
+    });
 
     // 每個選手最好的三項成績的表格
     // 之後考慮刪除成績為 0 的（失敗）
-    const query = `
+    const query =
+      `
       SELECT * FROM TotalData TD
       JOIN (
         SELECT LifterID, MAX(TotalKg) AS TotalKg FROM TotalData
         GROUP BY LifterID
-      ) AS BTD ON TD.LifterID = BTD.LifterID AND TD.TotalKg = BTD.TotalKg`
-      + " LIMIT " + (50 * page).toString() + ", 50"
-    const [data] = await connection.execute(query)
-    connection.end()
+      ) AS BTD ON TD.LifterID = BTD.LifterID AND TD.TotalKg = BTD.TotalKg` +
+      ' LIMIT ' +
+      (50 * page).toString() +
+      ', 50';
+    const [data] = await connection.execute(query);
+    connection.end();
 
     res.status(200).json({
       success: true,
       message: 'Success',
       data: data,
-    })
+    });
   } catch (error) {
     res.status(404).json({
       success: false,
       message: 'Error executing SQL statement',
       error: error,
-    })
+    });
   }
 }
