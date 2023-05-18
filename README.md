@@ -33,5 +33,5 @@ yarn run dev
 ## Prettier
 
 ```
-prettier --config ./.prettierrc --write .
+yarn prettier --config ./.prettierrc --write .
 ```
