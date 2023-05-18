@@ -3,7 +3,8 @@ import mysql from 'mysql2/promise';
 export default async function handler(req, res) {
   const query = req.query;
   const type = query['type'];
-  const page = parseInt(query['page']);
+  const id = parseInt(query['id']);
+  // const page = parseInt(query['page']);
 
   if (type !== 'squat' && type !== 'bench' && type !== 'deadlift') {
     // error
@@ -22,8 +23,15 @@ export default async function handler(req, res) {
       database: 'dbms23_final',
     });
     const query = `
-      SELECT *, GREATEST(${type}1Kg, ${type}2Kg, ${type}3Kg) AS ${type}Best
+      SELECT
+        *,
+        GREATEST(${type}1Kg, ${type}2Kg, ${type}3Kg) AS ${type}Best,
+        CASE
+          WHEN Follow.UserID=${id} THEN 1 
+          ELSE 0 
+        END AS isFollow
       FROM ${type}Data
+      LEFT JOIN Follow ON ${type}Data.LifterID=Follow.LifterID
       ORDER BY ${type}Best DESC`;
     const [data] = await connection.execute(query);
     connection.end();
