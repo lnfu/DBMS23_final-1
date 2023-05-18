@@ -29,3 +29,9 @@ python3 data_preprocessing.py # 執行 data_preprocessing.py 處理原始資料�
 yarn install
 yarn run dev
 ```
+
+## Prettier
+
+```
+prettier --config ./.prettierrc --write .
+```

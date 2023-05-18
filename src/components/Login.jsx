@@ -1,6 +1,6 @@
-import { useSession, signIn, signOut } from "next-auth/react";
-import Image from "next/image";
-import { Button } from "@mui/material";
+import { useSession, signIn, signOut } from 'next-auth/react';
+import Image from 'next/image';
+import { Button } from '@mui/material';
 export default function Login(props) {
   const { data: session } = useSession();
 
@@ -19,16 +19,10 @@ export default function Login(props) {
             className="rounded-full"
           />
         )}
-        {session && (
-          <span className=" font-semibold tracking-wide">
-            {session.user.name}
-          </span>
-        )}
+        {session && <span className=" font-semibold tracking-wide">{session.user.name}</span>}
 
-        <Button
-          variant="outlined"
-          onClick={session ? () => signOut() : () => signIn()}>
-          {session ? "Sign out" : "Sign in"}
+        <Button variant="outlined" onClick={session ? () => signOut() : () => signIn()}>
+          {session ? 'Sign out' : 'Sign in'}
         </Button>
       </div>
     </header>

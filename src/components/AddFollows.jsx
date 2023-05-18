@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { TextField, Button, Container, Typography } from "@mui/material";
-import { useSession } from "next-auth/react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { TextField, Button, Container, Typography } from '@mui/material';
+import { useSession } from 'next-auth/react';
 
 const AddFollows = () => {
-  const [lifterID, setLifterID] = useState("");
+  const [lifterID, setLifterID] = useState('');
   const { data: session } = useSession();
 
   const handleSubmit = async (e) => {
@@ -12,18 +12,18 @@ const AddFollows = () => {
 
     e.preventDefault();
     try {
-      const response = await axios.post("/api/add-follow", {
+      const response = await axios.post('/api/add-follow', {
         UserID: session.user.id,
         LifterID: lifterID,
       });
       console.log(response.data);
       console.log(session.user.id);
-      alert("Follow added successfully");
-      setUserID("");
-      setLifterID("");
+      alert('Follow added successfully');
+      setUserID('');
+      setLifterID('');
     } catch (error) {
-      console.error("Error adding follow", error);
-      alert("Error adding follow");
+      console.error('Error adding follow', error);
+      alert('Error adding follow');
     }
   };
 
