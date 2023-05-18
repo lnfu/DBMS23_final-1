@@ -1,10 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Table, TableHead, TableBody, TableRow, TableCell, TablePagination } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  TablePagination,
+  IconButton,
+} from '@mui/material';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function LiftsData(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [liked, setLiked] = useState({});
   const capitalizedType = props.type.charAt(0).toUpperCase() + props.type.slice(1);
 
   const handleChangePage = (event, newPage) => {
@@ -14,6 +24,15 @@ function LiftsData(props) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(event.target.value);
     setPage(0);
+  };
+
+  const handleLike = (row) => {
+    setLiked((prev) => ({
+      ...prev,
+      [row.MeetID + row.LifterID]: !prev[row.MeetID + row.LifterID],
+    }));
+
+    console.log(row.LifterID);
   };
 
   return (
@@ -31,6 +50,7 @@ function LiftsData(props) {
             <TableCell>{props.type} 2KG (kg)</TableCell>
             <TableCell>{props.type} 3KG (kg)</TableCell>
             <TableCell>{props.type} Best (kg)</TableCell>
+            <TableCell>Like</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -45,6 +65,15 @@ function LiftsData(props) {
               <TableCell>{row[`${capitalizedType}2Kg`]}</TableCell>
               <TableCell>{row[`${capitalizedType}3Kg`]}</TableCell>
               <TableCell>{row[`${props.type}Best`]}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => handleLike(row)}>
+                  {liked[row.MeetID + row.LifterID] ? (
+                    <FavoriteIcon color="error" />
+                  ) : (
+                    <FavoriteBorderIcon />
+                  )}
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
