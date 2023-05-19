@@ -101,7 +101,8 @@ CREATE TABLE DeadliftData (
 CREATE TABLE Follow (
   UserID INT NOT NULL, -- github ID
   LifterID INT NOT NULL,
-  Foreign Key (LifterID) REFERENCES Lifters(LifterID) ON DELETE CASCADE
+  PRIMARY KEY (UserID, LifterID),
+  Foreign KEY (LifterID) REFERENCES Lifters(LifterID) ON DELETE CASCADE
   -- UNIQUE INDEX idx_unique_follow (UserID, LifterID)
 );
 
