@@ -1,28 +1,6 @@
 import mysql from 'mysql2/promise';
-import { authOptions } from '/src/pages/api/auth/[...nextauth]'
-import { getServerSession } from "next-auth/next"
-
-// for session
-// consider store this function in another file (e.g., common.js)?
-export async function getServerSideProps(context) {
-  console.log("getServerSideProps");
-  const session = await getServerSession(context.req, context.res, authOptions)
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      },
-    }
-  }
-
-  return {
-    props: {
-      session,
-    },
-  }
-}
+import { authOptions } from '/src/pages/api/auth/[...nextauth]';
+import { getServerSession } from 'next-auth/next';
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
