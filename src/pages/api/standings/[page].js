@@ -1,30 +1,10 @@
-import mysql from 'mysql2/promise';
+import { getStandingsByPage } from '../../../utils/queries'
 
 export default async function handler(req, res) {
   const { page } = req.query;
 
   try {
-    const connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: 'dbms23_final',
-    });
-
-    // 每個選手最好的三項成績的表格
-    // 之後考慮刪除成績為 0 的（失敗）
-    const query =
-      `
-      SELECT * FROM TotalData TD
-      JOIN (
-        SELECT LifterID, MAX(TotalKg) AS TotalKg FROM TotalData
-        GROUP BY LifterID
-      ) AS BTD ON TD.LifterID = BTD.LifterID AND TD.TotalKg = BTD.TotalKg` +
-      ' LIMIT ' +
-      (50 * page).toString() +
-      ', 50';
-    const [data] = await connection.execute(query);
-    connection.end();
+    const [data] = await getStandingsByPage(page);
 
     res.status(200).json({
       success: true,

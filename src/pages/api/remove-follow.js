@@ -1,9 +1,21 @@
 import mysql from 'mysql2/promise';
+import { authOptions } from '/src/pages/api/auth/[...nextauth]';
+import { getServerSession } from 'next-auth/next';
 
 export default async function handler(req, res) {
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    res.status(404).json({
+      success: false,
+      message: 'You must be logged in',
+    });
+    return;
+  }
+
   if (req.method === 'POST') {
     const body = req.body;
-    const UserID = body['UserID'];
+    // const UserID = body['UserID'];
+    const UserID = parseInt(session.user.id);
     const LifterID = body['LifterID'];
 
     try {

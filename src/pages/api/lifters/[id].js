@@ -1,31 +1,11 @@
-import mysql from 'mysql2/promise';
+import { getLifterBasicById, getLifterRecent5ById } from '../../../utils/queries'
 
 export default async function handler(req, res) {
   const { id } = req.query; // MeetID
 
   try {
-    const connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: 'dbms23_final',
-    });
-
-    const query1 = `
-      SELECT * FROM Lifters WHERE LifterID = ${id}
-    `;
-    // 選手近五場的比賽
-    const query2 = `
-      SELECT td.* 
-      FROM TotalData td 
-      JOIN Meets using(MeetID)
-      WHERE LifterID = ${id}
-      ORDER BY Date DESC 
-      LIMIT 5;
-    `;
-    const [data1] = await connection.execute(query1);
-    const [data2] = await connection.execute(query2);
-    connection.end();
+    const [data1] = await getLifterBasicById(id);
+    const [data2] = await getLifterRecent5ById(id);
 
     res.status(200).json({
       success: true,
