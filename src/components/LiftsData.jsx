@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import axios from 'axios';
 
 function LiftsData(props) {
   const [page, setPage] = useState(0);
@@ -26,13 +27,18 @@ function LiftsData(props) {
     setPage(0);
   };
 
-  const handleLike = (row) => {
-    setLiked((prev) => ({
-      ...prev,
-      [row.MeetID + row.LifterID]: !prev[row.MeetID + row.LifterID],
-    }));
-
-    console.log(row.LifterID);
+  const handleLike = async (row) => {
+    try {
+      const response = await axios.post('/api/add-follow', {
+        LifterID: row.LifterID,
+      });
+      console.log(response.data);
+      console.log(session.user.id);
+      alert('Follow added successfully');
+    } catch (error) {
+      console.error('Error adding follow', error);
+      alert('Error adding follow');
+    }
   };
 
   return (
@@ -54,28 +60,26 @@ function LiftsData(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            <TableRow key={row.MeetID + row.LifterID}>
-              <TableCell>{row.MeetID}</TableCell>
-              <TableCell>{row.LifterID}</TableCell>
-              <TableCell>{row.Equipment}</TableCell>
-              <TableCell>{row.Age}</TableCell>
-              <TableCell>{row.BodyweightKg}</TableCell>
-              <TableCell>{row[`${capitalizedType}1Kg`]}</TableCell>
-              <TableCell>{row[`${capitalizedType}2Kg`]}</TableCell>
-              <TableCell>{row[`${capitalizedType}3Kg`]}</TableCell>
-              <TableCell>{row[`${props.type}Best`]}</TableCell>
-              <TableCell>
-                <IconButton onClick={() => handleLike(row)}>
-                  {liked[row.MeetID + row.LifterID] ? (
-                    <FavoriteIcon color="error" />
-                  ) : (
-                    <FavoriteBorderIcon />
-                  )}
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
+          {props.data
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.MeetID}</TableCell>
+                <TableCell>{row.LifterID}</TableCell>
+                <TableCell>{row.Equipment}</TableCell>
+                <TableCell>{row.Age}</TableCell>
+                <TableCell>{row.BodyweightKg}</TableCell>
+                <TableCell>{row[`${capitalizedType}1Kg`]}</TableCell>
+                <TableCell>{row[`${capitalizedType}2Kg`]}</TableCell>
+                <TableCell>{row[`${capitalizedType}3Kg`]}</TableCell>
+                <TableCell>{row[`${props.type}Best`]}</TableCell>
+                <TableCell>
+                  <IconButton onClick={() => handleLike(row)}>
+                    {liked[row.isFollow] ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
 
