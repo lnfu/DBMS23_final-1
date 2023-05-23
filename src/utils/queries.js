@@ -2,41 +2,43 @@ const { resolve } = require('styled-jsx/css');
 const db = require('./database');
 const { data } = require('autoprefixer');
 
-function runQuery(query, params) {
+async function runQuery(query, params) {
   return new Promise((resolve, reject) => {
     db.query(query, params, (err, result) => {
       if (err) {
         reject(err);
         return;
       }
+      console.log(result);
       resolve(result);
     });
   });
 }
 
-function getStandingsByPage(page) {
-  const query =
-    `
+async function getStandingsByPage(page) {
+  const query = `
     SELECT * FROM TotalData TD
     JOIN (
       SELECT LifterID, MAX(TotalKg) AS TotalKg FROM TotalData
       GROUP BY LifterID
-    ) AS BTD ON TD.LifterID = BTD.LifterID AND TD.TotalKg = BTD.TotalKg` +
-    ' LIMIT ?, 50';
-  return runQuery(query, [50*page]);
+    ) AS BTD ON TD.LifterID = BTD.LifterID AND TD.TotalKg = BTD.TotalKg 
+    LIMIT 50 OFFSET ?
+  `;
+  return await runQuery(query, [50*page]);
 }
 
 
 // 選手基本資料
-function getLifterBasicById(id) {
+async function getLifterBasicById(id) {
+  console.log("test");
   const query = `
-    SELECT * FROM Lifters WHERE LifterID = ${id}
+    SELECT * FROM Lifters WHERE LifterID = ?
   `;
-  return runQuery(query, []);
+  return await runQuery(query, [id]);
 }
 
 // 選手近五場的比賽
-function getLifterRecent5ById(id) {
+async function getLifterRecent5ById(id) {
   const query = `
     SELECT td.* 
     FROM TotalData td 
@@ -45,7 +47,7 @@ function getLifterRecent5ById(id) {
     ORDER BY Date DESC 
     LIMIT 5;
   `;
-  return runQuery(query, []);
+  return await runQuery(query, []);
 }
 
 module.exports = {
