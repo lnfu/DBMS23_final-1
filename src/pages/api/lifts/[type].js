@@ -60,13 +60,17 @@ export default async function handler(req, res) {
     });
     const query = `
       SELECT
-        *,
+        ${type}Data.*,
+        Meets.MeetName,
+        Lifters.Name AS LifterName,
         GREATEST(${type}1Kg, ${type}2Kg, ${type}3Kg) AS ${type}Best,
         CASE
           WHEN Follow.UserID=${id} THEN 1 
           ELSE 0 
         END AS isFollow
       FROM ${type}Data
+      JOIN Meets USING(MeetID)
+      JOIN Lifters USING(LifterID)
       LEFT JOIN Follow ON ${type}Data.LifterID=Follow.LifterID
       ORDER BY ${type}Best DESC`;
     const [data] = await connection.execute(query);
