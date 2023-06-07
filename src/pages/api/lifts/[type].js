@@ -58,6 +58,9 @@ export default async function handler(req, res) {
       password: process.env.DB_PASS,
       database: 'dbms23_final',
     });
+
+    
+
     const query = `
       SELECT
         ${type}Data.*,

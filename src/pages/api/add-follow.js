@@ -25,6 +25,26 @@ export default async function handler(req, res) {
         password: process.env.DB_PASS,
         database: 'dbms23_final',
       });
+
+
+      // first check the LifterID is in Database
+      const check_query = `
+        SELECT * FROM Lifters
+        WHERE LifterID = ${LifterID};
+      `;
+      const [check_data] = await connection.execute(check_query);
+      console.log(check_data);
+
+      if (check_data.length === 0) {
+        // console.log("test error");
+        res.status(400).send({
+          success: false,
+          message: 'LifterID not found',
+        });
+        return;
+      }
+
+
       const query = `
         INSERT INTO Follow (UserID, LifterID)
         VALUES (${UserID}, ${LifterID})
