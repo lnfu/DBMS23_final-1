@@ -9,15 +9,16 @@ export default async function handler(req, res) {
       success: false,
       message: 'You must be logged in',
     });
+    console.log('You must be logged in');
     return;
   }
 
   if (req.method === 'POST') {
     const body = req.body;
-    // const UserID = body['UserID'];
     const UserID = parseInt(session.user.id);
     const LifterID = body['LifterID'];
-
+    console.log(UserID);
+    console.log(LifterID)
     try {
       const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -25,24 +26,37 @@ export default async function handler(req, res) {
         password: process.env.DB_PASS,
         database: 'dbms23_final',
       });
+
+      // Check if the (UserID, LifterID) combination already exists in Follow table
+      const check_query = `
+        SELECT * FROM Follow
+        WHERE UserID = ${UserID} AND LifterID = ${LifterID};
+      `;
+      const [check_data] = await connection.execute(check_query);
+      console.log(check_data);
+
+      if (check_data.length > 0) {
+        res.status(400).send({
+          success: false,
+          message: 'The follow relationship already exists',
+        });
+        return;
+      }
+
       const query = `
         INSERT INTO Follow (UserID, LifterID)
         VALUES (${UserID}, ${LifterID})
       `;
-      const [data] = await connection.execute(query);
+      await connection.execute(query);
       connection.end();
 
       res.status(200).json({
         success: true,
         message: 'Success',
-        data: data,
+        //  data: data,
       });
     } catch (error) {
-      res.status(404).json({
-        success: false,
-        message: 'Error executing SQL statement',
-        error: error,
-      });
+      console.log(error);
     }
   } else {
     res.status(405).send({

@@ -25,13 +25,13 @@ export default async function handler(req, res) {
       password: process.env.DB_PASS,
       database: 'dbms23_final',
     });
-
+    // console.log(id);
     const query = `
       SELECT LifterID FROM Follow WHERE UserID = ${id}
     `;
     const [data] = await connection.execute(query);
     connection.end();
-
+    // console.log(data);
     res.status(200).json({
       success: true,
       message: 'Success',
