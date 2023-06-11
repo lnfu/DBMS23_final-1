@@ -15,7 +15,7 @@ export const authOptions = {
     async session({ session, user, token }) {
       session.accessToken = token.accessToken;
       session.user.id = token.sub;
-      console.log('要放進table的id:', session.user.id);
+      // console.log('要放進table的id:', session.user.id);
       return session;
     },
   },

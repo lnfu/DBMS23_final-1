@@ -16,9 +16,11 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const body = req.body;
     const UserID = parseInt(session.user.id);
-    const LifterID = body['LifterID'];
-    console.log(UserID);
-    console.log(LifterID)
+    // const LifterID = body['LifterID'];
+    const LifterName = body['LifterName'];
+
+    //  console.log(UserID);
+    // console.log(LifterID)
     try {
       const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -26,25 +28,35 @@ export default async function handler(req, res) {
         password: process.env.DB_PASS,
         database: 'dbms23_final',
       });
+      const findIdQuery = `
+SELECT LifterID FROM Lifters WHERE Name = '${LifterName}';
+`;
+      const [rows] = await connection.execute(findIdQuery);
+      if (rows.length === 0) {
+        res.status(400).send({
+          success: false,
+          message: 'Lifter does not exist',
+        });
+        return;
+      }
+      const LifterID = rows[0].LifterID;
 
-
-      // first check the LifterID is in Database
+      console.log(LifterID);
+      // Check if the (UserID, LifterID) combination already exists in Follow table
       const check_query = `
-        SELECT * FROM Lifters
-        WHERE LifterID = ${LifterID};
+        SELECT * FROM Follow
+        WHERE UserID = ${UserID} AND LifterID = ${LifterID};
       `;
       const [check_data] = await connection.execute(check_query);
       console.log(check_data);
 
-      if (check_data.length === 0) {
-        // console.log("test error");
+      if (check_data.length > 0) {
         res.status(400).send({
           success: false,
-          message: 'LifterID not found',
+          message: 'The follow relationship already exists',
         });
         return;
       }
-
 
       const query = `
         INSERT INTO Follow (UserID, LifterID)

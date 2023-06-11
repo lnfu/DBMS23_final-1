@@ -78,7 +78,7 @@ export default async function handler(req, res) {
       ORDER BY ${type}Best DESC`;
     const [data] = await connection.execute(query);
     connection.end();
-
+    console.log(data);
     res.status(200).json({
       success: true,
       message: 'Success',

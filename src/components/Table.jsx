@@ -30,6 +30,7 @@ function Table() {
       .get(`/api/lifts/squat`)
       .then((res) => {
         setSquatData(res.data.data);
+        console.log(res.data.data);
       })
       .catch((error) => {
         console.log(error);
@@ -37,7 +38,7 @@ function Table() {
   }, []);
   return (
     <div>
-      <ButtonGroup className="my-4">
+      <ButtonGroup className="my-4 mx-10">
         <Button onClick={() => setLiftType('bench')}>Bench</Button>
         <Button onClick={() => setLiftType('deadlift')}>Deadlift</Button>
         <Button onClick={() => setLiftType('squat')}>Squat</Button>
