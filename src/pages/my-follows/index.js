@@ -7,17 +7,20 @@ import {
   TableCell,
   TablePagination,
   IconButton,
-  Button,
+  Button, TextField,
 } from '@mui/material';
 import axios from 'axios';
 import Login from '@/components/Login';
 import { useSession } from 'next-auth/react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Home = () => {
   const { data: session } = useSession();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [trigger, setTrigger] = useState(0)
+  const [name, setName] = useState('')
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -45,9 +48,49 @@ const Home = () => {
     setTrigger((prev) => prev + 1)
 
   }
+  useEffect(() => {
+
+    console.log(name)
+  }, [name])
+  const handleFollow = async () => {
+    await axios.post('http://localhost:3000/api/add-followByName',
+      { LifterName: name })
+      .then((res) => {
+        console.log(res.data)
+        toast.success('Successfully added!');
+      })
+      .catch((error) => {
+        console.log(error.response);
+        if (error.response && error.response.status === 400) {
+          toast.warn(error.response.data.message);
+        } else {
+          toast.error('An error occurred!');
+        }
+      })
+
+    setName('')
+    setTrigger((prev) => prev + 1)
+  }
   return (
     <div>
+      <ToastContainer position="bottom-right" />
+
       <Login />
+      <div className='flex flex-row items-center justify-center space-x-2 my-2'>
+        <TextField
+          id="outlined-basic"
+          label="Name"
+          value={name}
+          onChange={(el) => { setName(el.target.value); }}
+
+        />
+
+
+        <Button variant="outlined" onClick={handleFollow} >
+          Follow
+        </Button>
+      </div>
+
       {data && <div>
 
         <Table>
