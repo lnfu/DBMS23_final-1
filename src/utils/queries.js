@@ -49,8 +49,35 @@ async function getLifterRecent5ById(id) {
   return await runQuery(query, []);
 }
 
+
+
+async function getLifterGame(idArray) {
+  
+  const idArrayStr = idArray.join();
+  console.log(idArrayStr);
+  const query = `
+    SELECT td.* ,Meets.*
+    FROM TotalData td 
+    JOIN Meets using(MeetID)
+    WHERE LifterID IN (${idArrayStr})
+    ORDER BY Date DESC 
+  `;
+
+  return await runQuery(query, []);
+}
+
+
+
+
+
+
+
+
+
+
 module.exports = {
   getStandingsByPage,
   getLifterBasicById,
   getLifterRecent5ById,
+  getLifterGame,
 };
