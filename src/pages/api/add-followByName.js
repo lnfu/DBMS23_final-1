@@ -16,9 +16,11 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const body = req.body;
     const UserID = parseInt(session.user.id);
-    const LifterID = body['LifterID'];
-    console.log(UserID);
-    console.log(LifterID)
+    // const LifterID = body['LifterID'];
+    const LifterName = body['LifterName'];
+
+    //  console.log(UserID);
+    // console.log(LifterID)
     try {
       const connection = await mysql.createConnection({
         host: process.env.DB_HOST,
@@ -26,7 +28,20 @@ export default async function handler(req, res) {
         password: process.env.DB_PASS,
         database: 'dbms23_final',
       });
+      const findIdQuery = `
+SELECT LifterID FROM Lifters WHERE Name = '${LifterName}';
+`;
+      const [rows] = await connection.execute(findIdQuery);
+      if (rows.length === 0) {
+        res.status(400).send({
+          success: false,
+          message: 'Lifter does not exist',
+        });
+        return;
+      }
+      const LifterID = rows[0].LifterID;
 
+      console.log(LifterID);
       // Check if the (UserID, LifterID) combination already exists in Follow table
       const check_query = `
         SELECT * FROM Follow

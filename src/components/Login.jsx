@@ -15,7 +15,7 @@ export default function Login(props) {
   return (
     <header className="bg-white text-gray-800 px-4 py-3 flex justify-between items-center shadow-md">
       <div className="flex items-center">
-        <span className="font-semibold text-lg">要取啥名字</span>
+        <span className="font-semibold text-lg">DB-Final</span>
       </div>
       <div className="flex items-center space-x-4">
         <Image

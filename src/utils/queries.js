@@ -24,7 +24,7 @@ async function getStandingsByPage(page) {
     ) AS BTD ON TD.LifterID = BTD.LifterID AND TD.TotalKg = BTD.TotalKg 
     LIMIT 50 OFFSET ?
   `;
-  return await runQuery(query, [50*page]);
+  return await runQuery(query, [50 * page]);
 }
 
 
@@ -40,13 +40,12 @@ async function getLifterBasicById(id) {
 // 選手近五場的比賽
 async function getLifterRecent5ById(id) {
   const query = `
-    SELECT td.* 
+    SELECT td.* ,Meets.*
     FROM TotalData td 
     JOIN Meets using(MeetID)
     WHERE LifterID = ${id}
     ORDER BY Date DESC 
-    LIMIT 5;
-  `;
+;  `;
   return await runQuery(query, []);
 }
 
