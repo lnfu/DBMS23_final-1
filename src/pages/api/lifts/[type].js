@@ -59,7 +59,7 @@ export default async function handler(req, res) {
       database: 'dbms23_final',
     });
 
-    
+
 
     const query = `
       SELECT
@@ -75,7 +75,8 @@ export default async function handler(req, res) {
       JOIN Meets USING(MeetID)
       JOIN Lifters USING(LifterID)
       LEFT JOIN Follow ON ${type}Data.LifterID=Follow.LifterID
-      ORDER BY ${type}Best DESC`;
+      ORDER BY ${type}Best DESC
+      LIMIT 1000`;
     const [data] = await connection.execute(query);
     connection.end();
     console.log(data);

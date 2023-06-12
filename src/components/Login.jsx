@@ -1,6 +1,7 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
 import { Button } from '@mui/material';
+import Link from 'next/link';
 export default function Login(props) {
   const { data: session } = useSession();
 
@@ -15,8 +16,18 @@ export default function Login(props) {
   return (
     <header className="bg-white text-gray-800 px-4 py-3 flex justify-between items-center shadow-md">
       <div className="flex items-center">
-        <span className="font-semibold text-lg">DB-Final</span>
+        <Link href="http://localhost:3000">
+          <span className="font-semibold text-lg mr-10">Home</span>
+        </Link>
+
+        <Link href="http://localhost:3000/follows-page">
+          <span className="text-lg text-blue-500 mr-10">Follows Page</span>
+        </Link>
+        <Link href="http://localhost:3000/my-follows">
+          <span className="text-lg text-blue-500 mr-10">All My Follows</span>
+        </Link>
       </div>
+
       <div className="flex items-center space-x-4">
         <Image
           src={session.user.image}
