@@ -52,15 +52,16 @@ async function getLifterRecent5ById(id) {
 
 
 async function getLifterGame(idArray) {
-  
+
   const idArrayStr = idArray.join();
   console.log(idArrayStr);
   const query = `
-    SELECT td.* ,Meets.*
-    FROM TotalData td 
-    JOIN Meets using(MeetID)
-    WHERE LifterID IN (${idArrayStr})
-    ORDER BY Date DESC 
+  SELECT td.*, Meets.*, Lifters.Name
+  FROM TotalData td 
+  JOIN Meets USING(MeetID)
+  JOIN Lifters ON Lifters.LifterID = td.LifterID
+  WHERE td.LifterID IN (${idArrayStr})
+  ORDER BY Date DESC;
   `;
 
   return await runQuery(query, []);

@@ -27,7 +27,22 @@ export default async function handler(req, res) {
         database: 'dbms23_final',
       });
 
+      const check_query1 = `
+      SELECT * FROM Follow
+      WHERE UserID = ${UserID} AND LifterID = ${LifterID};
+    `;
+      const [check_data1] = await connection.execute(check_query1);
+      console.log(check_data1);
 
+      if (check_data1.length > 0) {
+        // console.log("test error");
+        res.status(400).send({
+          success: false,
+          message: 'The follow relationship already exists',
+          message: 'LifterID not found',
+        });
+        return;
+      }
       // first check the LifterID is in Database
       const check_query = `
         SELECT * FROM Lifters
