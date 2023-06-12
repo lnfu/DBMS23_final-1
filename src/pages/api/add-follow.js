@@ -27,21 +27,24 @@ export default async function handler(req, res) {
         database: 'dbms23_final',
       });
 
-      // Check if the (UserID, LifterID) combination already exists in Follow table
+
+      // first check the LifterID is in Database
       const check_query = `
-        SELECT * FROM Follow
-        WHERE UserID = ${UserID} AND LifterID = ${LifterID};
+        SELECT * FROM Lifters
+        WHERE LifterID = ${LifterID};
       `;
       const [check_data] = await connection.execute(check_query);
       console.log(check_data);
 
-      if (check_data.length > 0) {
+      if (check_data.length === 0) {
+        // console.log("test error");
         res.status(400).send({
           success: false,
-          message: 'The follow relationship already exists',
+          message: 'LifterID not found',
         });
         return;
       }
+
 
       const query = `
         INSERT INTO Follow (UserID, LifterID)
