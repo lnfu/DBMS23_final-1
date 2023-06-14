@@ -43,8 +43,14 @@ const Home = () => {
 
     await axios.post('http://localhost:3000/api/remove-follow',
       { LifterID: row.LifterID })
-      .then((res) => { console.log(res.data) })
-      .catch((err) => { console.log(err) })
+      .then((res) => {
+        console.log(res.data)
+        toast.success('Successfully Removed!');
+      })
+      .catch((err) => {
+        console.log(err)
+        toast.error('An error occurred!');
+      })
     setTrigger((prev) => prev + 1)
 
   }
