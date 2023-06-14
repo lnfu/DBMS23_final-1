@@ -42,7 +42,7 @@ export default async function handler(req, res) {
   const type = query['type'];
   const id = parseInt(session.user.id);
 
-  if (type !== 'squat' && type !== 'bench' && type !== 'deadlift') {
+  if (type !== 'Squat' && type !== 'Bench' && type !== 'Deadlift') {
     // error
     res.status(404).send({
       success: false,
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
     });
 
 
-
+    console.log(type);
     const query = `
       SELECT
         ${type}Data.*,
@@ -79,7 +79,6 @@ export default async function handler(req, res) {
       LIMIT 1000`;
     const [data] = await connection.execute(query);
     connection.end();
-    console.log(data);
     res.status(200).json({
       success: true,
       message: 'Success',

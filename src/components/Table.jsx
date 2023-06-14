@@ -11,7 +11,7 @@ function Table() {
 
   useEffect(() => {
     axios
-      .get(`/api/lifts/bench`)
+      .get(`/api/lifts/Bench`)
       .then((res) => {
         setBenchData(res.data.data);
       })
@@ -19,7 +19,7 @@ function Table() {
         console.log(error);
       });
     axios
-      .get(`/api/lifts/deadlift`)
+      .get(`/api/lifts/Deadlift`)
       .then((res) => {
         setDeadliftData(res.data.data);
       })
@@ -27,7 +27,7 @@ function Table() {
         console.log(error);
       });
     axios
-      .get(`/api/lifts/squat`)
+      .get(`/api/lifts/Squat`)
       .then((res) => {
         setSquatData(res.data.data);
         console.log(res.data.data);
