@@ -35,3 +35,22 @@ yarn run dev
 ```
 yarn prettier --config ./.prettierrc --write .
 ```
+
+## Unit Test
+
+```
+yarn test
+```
+
+## e2e Test
+
+add `.env.local` file
+
+```
+GITHUB_USER
+GITHUB_PASS
+```
+
+```
+yarn playwright test
+```
