@@ -40,3 +40,9 @@ next-env.d.ts
 
 # sql
 test.sql
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# playwright
+/temp

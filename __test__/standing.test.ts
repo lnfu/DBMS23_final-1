@@ -1,12 +1,12 @@
-import handler from '@/pages/api/lifters/[id]';
+import handler from '@/pages/api/standings/[page]';
 require('dotenv').config({ path: '.env.local' });
 
-describe('/api/lifters/[id] handler', () => {
+describe('/api/standings/[page] handler', () => {
   it('should return correct JSON for id 1', async () => {
     // 加入 async
     const req = {
       query: {
-        id: '1',
+        page: 1,
       },
     };
 
@@ -26,5 +26,8 @@ describe('/api/lifters/[id] handler', () => {
     await handler(req, res);
 
     expect(res.statusCode).toBe(200);
+    expect(res.body.data[0]).toHaveProperty('MeetID');
+    expect(res.body.data[0]).toHaveProperty('LifterID');
+    expect(res.body.data.length).toBe(50);
   });
 });
