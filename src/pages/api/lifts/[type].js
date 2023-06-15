@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth/next';
 export async function getServerSideProps(context) {
   console.log('getServerSideProps');
   const session = await getServerSession(context.req, context.res, authOptions);
-
+  console.log(session);
   if (!session) {
     return {
       redirect: {

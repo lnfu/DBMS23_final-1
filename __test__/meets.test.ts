@@ -1,7 +1,7 @@
-import handler from '@/pages/api/lifters/[id]';
+import handler from '@/pages/api/meets/[id]';
 require('dotenv').config({ path: '.env.local' });
 
-describe('/api/lifters/[id] handler', () => {
+describe('/api/meets/[id] handler', () => {
   it('should return correct JSON for id 1', async () => {
     // 加入 async
     const req = {
@@ -26,5 +26,10 @@ describe('/api/lifters/[id] handler', () => {
     await handler(req, res);
 
     expect(res.statusCode).toBe(200);
+    expect(res.body.data[0]).toHaveProperty('MeetState');
+    expect(res.body.data[0]).toHaveProperty('MeetName');
+    expect(res.body.data[0]).toHaveProperty('Date');
+    expect(res.body.data[0]).toHaveProperty('MeetTown');
+    expect(res.body.data[0]).toHaveProperty('Federation');
   });
 });

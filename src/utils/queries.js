@@ -9,7 +9,6 @@ async function runQuery(query, params) {
         reject(err);
         return;
       }
-      console.log(result);
       resolve(result);
     });
   });
@@ -30,7 +29,6 @@ async function getStandingsByPage(page) {
 
 // 選手基本資料
 async function getLifterBasicById(id) {
-  console.log("test");
   const query = `
     SELECT * FROM Lifters WHERE LifterID = ?
   `;
@@ -54,7 +52,6 @@ async function getLifterRecent5ById(id) {
 async function getLifterGame(idArray) {
 
   const idArrayStr = idArray.join();
-  console.log(idArrayStr);
   const query = `
   SELECT td.*, Meets.*, Lifters.Name
   FROM TotalData td 
