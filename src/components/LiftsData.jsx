@@ -81,7 +81,7 @@ function LiftsData(props) {
                 <TableCell>{row[`${capitalizedType}1Kg`]}</TableCell>
                 <TableCell>{row[`${capitalizedType}2Kg`]}</TableCell>
                 <TableCell>{row[`${capitalizedType}3Kg`]}</TableCell>
-                <TableCell>{row[`${props.type}Best`]}</TableCell>
+                <TableCell>{row[`${capitalizedType}Best`]}</TableCell>
                 <TableCell>
                   <Button variant="outlined" onClick={() => handleLike(row)}>
                     Follow
