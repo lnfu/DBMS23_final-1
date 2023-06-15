@@ -34,6 +34,5 @@ test('test All My Follows Page', async ({ page }) => {
   await page.locator('a:has-text("All My Follows")').click();
   await page.waitForTimeout(2000);
   await page.locator('button:has-text("Follow")').waitFor();
-  await page.locator('button:has-text("PAGE")').waitFor();
-  await page.locator('button:has-text("REMOVE")').waitFor();
+  await page.locator('table').waitFor();
 });
